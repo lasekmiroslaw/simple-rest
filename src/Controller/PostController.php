@@ -18,7 +18,7 @@ class PostController extends Controller
      * @Route("/api/posts")
      * @Method("POST")
      */
-    public function new(Request $request, FormProcesor $formProcessor, Serializer $serializer)
+    public function newPost(Request $request, FormProcesor $formProcessor, Serializer $serializer)
     {
         $post = new Post();
 
@@ -39,14 +39,32 @@ class PostController extends Controller
             return new JsonResponse($serializer->serialize($post), 201, [], true);
         }
     }
+
     /**
      * @Route("/api/posts")
      * @Method("GET")
      */
-    public function list(Serializer $serializer)
+    public function listPosts(Serializer $serializer)
     {
-        $posts = $this->getDoctrine()->getRepository(Post::class)->findAll();
+        $posts = $this->getDoctrine()->getRepository(Post::class)->findPosts();
 
-        return new JsonResponse($serializer->serialize(['postst' => $posts]), 200, [], true);
+        return new JsonResponse($serializer->serialize(['posts' => $posts]), 200, [], true);
+    }
+
+    /**
+     * @Route("/api/posts/{id}")
+     * @Method("GET")
+     */
+    public function getPost(int $id, Serializer $serializer)
+    {
+        $post = $this->getDoctrine()->getRepository(Post::class)->find($id);
+        if (!$post) {
+            throw $this->createNotFoundException(sprintf(
+                'No posts found for id "%s"',
+                $id
+              ));
+        }
+
+        return new JsonResponse($serializer->serialize($post), 200, [], true);
     }
 }

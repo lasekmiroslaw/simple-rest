@@ -5,9 +5,11 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as Serializer;
 use Symfony\Component\Validator\Constraints as Assert;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\PostRepository")
+ * @Serializer\ExclusionPolicy("none")
  */
 class Post
 {
@@ -15,6 +17,7 @@ class Post
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
+     * @Serializer\Exclude
      */
     private $id;
 
@@ -47,7 +50,13 @@ class Post
     public function __construct()
     {
         $this->date = new \DateTime();
+        $this->comments = new ArrayCollection();
     }
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Comment", mappedBy="postId")
+     */
+    private $comments;
 
     public function getId()
     {
