@@ -9,6 +9,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Response;
 use App\Api\Serializer;
 use App\Api\FormProcesor;
 
@@ -66,5 +67,27 @@ class PostController extends Controller
         }
 
         return new JsonResponse($serializer->serialize($post), 200, [], true);
+    }
+
+    /**
+     * @Route("/api/posts/{id}")
+     * @Method("DELETE")
+     */
+    public function deletePost(int $id)
+    {
+        $post = $this->getDoctrine()->getRepository(Post::class)
+            ->findOneBy(['id' => $id, 'user' => $this->getUser()]);
+        if (!$post) {
+            throw $this->createNotFoundException(sprintf(
+                'No user posts found for id "%s"',
+                $id
+              ));
+        }
+
+        $em = $this->getDoctrine()->getManager();
+        $em->remove($post);
+        $em->flush();
+
+        return new Response(null, 204);
     }
 }
