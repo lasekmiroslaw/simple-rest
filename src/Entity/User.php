@@ -6,10 +6,12 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
+use JMS\Serializer\Annotation as Serializer;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
  * @UniqueEntity(fields="email", message="Email already taken")
+ * @Serializer\ExclusionPolicy("all")
  */
 class User implements UserInterface, \Serializable
 {
@@ -23,12 +25,16 @@ class User implements UserInterface, \Serializable
     /**
      * @ORM\Column(type="string", length=255)
      * @Assert\NotBlank()
+     * @Assert\Type("string")
+     * @Serializer\Expose
      */
     private $name;
 
     /**
      * @ORM\Column(type="string", length=255)
      * @Assert\NotBlank()
+     * @Assert\Type("string")
+     * @Serializer\Expose
      */
     private $surname;
 
@@ -144,6 +150,7 @@ class User implements UserInterface, \Serializable
               $this->id,
               $this->name,
               $this->surname,
+              $this->email,
               $this->password,
           ));
     }
@@ -155,6 +162,7 @@ class User implements UserInterface, \Serializable
               $this->id,
               $this->name,
               $this->surname,
+              $this->email,
               $this->password,
           ) = unserialize($serialized, ['allowed_classes' => false]);
     }

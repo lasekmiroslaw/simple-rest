@@ -17,12 +17,14 @@ class Comment
     private $id;
 
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Post")
+     * @ORM\JoinColumn(name="postId", referencedColumnName="id")
      */
     private $postId;
 
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\ManyToOne(targetEntity="App\Entity\User")
+     * @ORM\JoinColumn(name="userId", referencedColumnName="id")
      */
     private $userId;
 
@@ -36,33 +38,34 @@ class Comment
      */
     private $date;
 
+    public function __construct()
+    {
+        $this->date = new \DateTime();
+    }    
+
     public function getId()
     {
         return $this->id;
     }
 
-    public function getPostId(): ?int
+    public function getPostId(): Post
     {
         return $this->postId;
     }
 
-    public function setPostId(int $postId): self
+    public function setPostId(Post $post): self
     {
-        $this->postId = $postId;
-
-        return $this;
+        $this->postId = $post;
     }
 
-    public function getUserId(): ?int
+    public function getUserId(): User
     {
         return $this->userId;
     }
 
-    public function setUserId(int $userId): self
+    public function setUserId(User $user)
     {
-        $this->userId = $userId;
-
-        return $this;
+        $this->userId = $user;
     }
 
     public function getComment(): ?string
