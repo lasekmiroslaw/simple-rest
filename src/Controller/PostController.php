@@ -39,4 +39,14 @@ class PostController extends Controller
             return new JsonResponse($serializer->serialize($post), 201, [], true);
         }
     }
-  }
+    /**
+     * @Route("/api/posts")
+     * @Method("GET")
+     */
+    public function list(Serializer $serializer)
+    {
+        $posts = $this->getDoctrine()->getRepository(Post::class)->findAll();
+
+        return new JsonResponse($serializer->serialize(['postst' => $posts]), 200, [], true);
+    }
+}

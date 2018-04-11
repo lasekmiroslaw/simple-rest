@@ -21,6 +21,7 @@ class Post
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\User")
      * @ORM\JoinColumn(name="userId", referencedColumnName="id")
+     * @Serializer\SerializedName("author")
      */
     private $userId;
 

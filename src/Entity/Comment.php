@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use JMS\Serializer\Annotation as Serializer;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\CommentRepository")
@@ -25,6 +26,7 @@ class Comment
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\User")
      * @ORM\JoinColumn(name="userId", referencedColumnName="id")
+     * @Serializer\SerializedName("author")
      */
     private $userId;
 
@@ -41,7 +43,7 @@ class Comment
     public function __construct()
     {
         $this->date = new \DateTime();
-    }    
+    }
 
     public function getId()
     {
