@@ -12,15 +12,18 @@ class SecurityController extends Controller
     /**
      * @Route("/login", name="login")
      */
-     public function login(Request $request, AuthenticationUtils $authenticationUtils)
-     {
-         $error = $authenticationUtils->getLastAuthenticationError();
+    public function login(Request $request, AuthenticationUtils $authenticationUtils)
+    {
+        if ($this->isGranted('ROLE_USER')) {
+            return $this->redirectToRoute('homepage');
+        }
+        $error = $authenticationUtils->getLastAuthenticationError();
 
-         $lastEmail = $authenticationUtils->getLastUsername();
+        $lastEmail = $authenticationUtils->getLastUsername();
 
-         return $this->render('security/login.html.twig', array(
+        return $this->render('security/login.html.twig', array(
              'last_email' => $lastEmail,
              'error'         => $error,
          ));
-     }
+    }
 }
