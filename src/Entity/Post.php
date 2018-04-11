@@ -23,15 +23,16 @@ class Post
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\User")
-     * @ORM\JoinColumn(name="userId", referencedColumnName="id")
+     * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
      * @Serializer\SerializedName("author")
      */
-    private $userId;
+    private $user;
 
     /**
      * @ORM\Column(type="string", length=255)
      * @Assert\NotBlank(message="Please enter a title")
      * @Assert\Type("string")
+     * @Assert\NotBlank()
      */
     private $title;
 
@@ -39,6 +40,7 @@ class Post
      * @ORM\Column(type="text")
      * @Assert\NotBlank(message="Please enter a description")
      * @Assert\Type("string")
+     * @Assert\NotBlank()
      */
     private $description;
 
@@ -47,6 +49,11 @@ class Post
      */
     private $date;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Comment", mappedBy="post")
+     */
+    private $comments;
+
     public function __construct()
     {
         $this->date = new \DateTime();
@@ -54,23 +61,26 @@ class Post
     }
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Comment", mappedBy="postId")
+     * @return Collection|Comment[]
      */
-    private $comments;
+    public function getComments()
+    {
+        return $this->comments;
+    }
 
     public function getId()
     {
         return $this->id;
     }
 
-    public function getUserId(): User
+    public function getUser(): User
     {
         return $this->userId;
     }
 
-    public function setUserId(User $user)
+    public function setUser(User $user)
     {
-        $this->userId = $user;
+        $this->user = $user;
     }
 
     public function getTitle(): ?string

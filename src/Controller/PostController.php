@@ -30,7 +30,7 @@ class PostController extends Controller
         }
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $post->setUserId($this->getUser());
+            $post->setUser($this->getUser());
 
             $em = $this->getDoctrine()->getManager();
             $em->persist($post);
