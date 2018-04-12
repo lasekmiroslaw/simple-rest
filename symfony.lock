@@ -101,6 +101,9 @@
             "ref": "fe60ce509ef04a3f40da96e3979bc8d9b13b2372"
         }
     },
+    "liip/functional-test-bundle": {
+        "version": "2.0.0-alpha4"
+    },
     "monolog/monolog": {
         "version": "1.23.0"
     },

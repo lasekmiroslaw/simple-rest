@@ -8,7 +8,7 @@ class Serializer
 {
     public function serialize($data, $form = 'json')
     {
-      $serializer = \JMS\Serializer\SerializerBuilder::create()
+        $serializer = \JMS\Serializer\SerializerBuilder::create()
           ->build();
 
         return $serializer->serialize($data, $form);
