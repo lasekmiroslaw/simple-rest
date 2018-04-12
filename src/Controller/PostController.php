@@ -30,15 +30,13 @@ class PostController extends Controller
             return $formProcessor->createValidationErrorResponse($form);
         }
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $post->setUser($this->getUser());
+        $post->setUser($this->getUser());
 
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($post);
-            $em->flush();
+        $em = $this->getDoctrine()->getManager();
+        $em->persist($post);
+        $em->flush();
 
-            return new JsonResponse($serializer->serialize($post), 201, [], true);
-        }
+        return new JsonResponse($serializer->serialize($post), 201, [], true);
     }
 
     /**
@@ -47,7 +45,8 @@ class PostController extends Controller
      */
     public function listPosts(Serializer $serializer)
     {
-        $posts = $this->getDoctrine()->getRepository(Post::class)->findPosts();
+        $posts = $this->getDoctrine()->getRepository(Post::class)
+            ->findBy([], ['date' => 'DESC']);
 
         return new JsonResponse($serializer->serialize(['posts' => $posts]), 200, [], true);
     }
@@ -79,7 +78,7 @@ class PostController extends Controller
             ->findOneBy(['id' => $id, 'user' => $this->getUser()]);
         if (!$post) {
             throw $this->createNotFoundException(sprintf(
-                'No user posts found for id "%s"',
+                'No user\'s post found for id "%s"',
                 $id
               ));
         }

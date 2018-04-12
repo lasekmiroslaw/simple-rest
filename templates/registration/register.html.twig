@@ -2,13 +2,15 @@
 {% block title %}Registration{% endblock %}
 
 {% block body %}
-  {{ form_start(form) }}
-  {{ form_row(form.name) }}
-  {{ form_row(form.surname) }}
-  {{ form_row(form.email) }}
-  {{ form_row(form.plainPassword.first) }}
-  {{ form_row(form.plainPassword.second) }}
-
-  <button type="submit">Register!</button>
-  {{ form_end(form) }}
+  <div class="col-md-6 offset-md-3 mt-5">
+    <a href="{{ path('login') }}">Log in</a>
+    {{ form_start(form) }}
+    {{ form_row(form.name) }}
+    {{ form_row(form.surname) }}
+    {{ form_row(form.email) }}
+    {{ form_row(form.plainPassword.first) }}
+    {{ form_row(form.plainPassword.second) }}
+    <button class="btn btn-primary" type="submit">Register!</button>
+    {{ form_end(form) }}
+  </div>
 {% endblock %}

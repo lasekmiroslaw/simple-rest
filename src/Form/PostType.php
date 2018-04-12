@@ -23,7 +23,7 @@ class PostType extends AbstractType
     {
         $resolver->setDefaults(array(
             'data_class' => Post::class,
-            'csrf_protection' => false,            
+            'csrf_protection' => false,
         ));
     }
 }

@@ -37,15 +37,13 @@ class CommentController extends Controller
             return $formProcessor->createValidationErrorResponse($form);
         }
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $comment->setUser($this->getUser());
-            $comment->setPost($post);
+        $comment->setUser($this->getUser());
+        $comment->setPost($post);
 
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($comment);
-            $em->flush();
+        $em = $this->getDoctrine()->getManager();
+        $em->persist($comment);
+        $em->flush();
 
-            return new JsonResponse($serializer->serialize($comment), 201, [], true);
-        }
+        return new JsonResponse($serializer->serialize($comment), 201, [], true);
     }
-  }
+}
