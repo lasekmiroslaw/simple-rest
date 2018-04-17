@@ -1,6 +1,6 @@
 <?php
 
-namespace App\EventListener;
+namespace App\EventSubscriber;
 
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpKernel\Event\GetResponseForExceptionEvent;
@@ -25,9 +25,7 @@ class ApiExceptionSubscriber implements EventSubscriberInterface
         } else {
             $statusCode = $e instanceof HttpExceptionInterface ? $e->getStatusCode() : 500;
 
-            $apiProblem = new ApiProblem(
-            $statusCode
-          );
+            $apiProblem = new ApiProblem($statusCode);
         }
 
         if ($e instanceof HttpExceptionInterface) {
