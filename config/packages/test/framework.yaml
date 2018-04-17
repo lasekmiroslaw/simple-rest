@@ -8,4 +8,4 @@ framework:
 liip_functional_test:
     authentication:
         username: "janusz@biedronka.pl"
-        password: "password"
+        password: "password50"

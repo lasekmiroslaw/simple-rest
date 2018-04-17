@@ -26,4 +26,4 @@ services:
 
     App\EventListener\PasswordHashListener:
         tags:
-            - { name: doctrine.event_listener, event: prePersist }
+            - { name: doctrine.event_listener, event: prePersist, lazy: true  }
